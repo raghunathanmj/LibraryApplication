@@ -1,0 +1,8 @@
+#ignore target folder
+target/
+dependency-reduced-pom.xml
+LibraryConfig.xml
+Library.iml
+library-example.iml
+node_modules/
+.idea/
