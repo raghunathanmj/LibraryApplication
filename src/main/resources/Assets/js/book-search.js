@@ -29,11 +29,10 @@ bookSearch.controller('BookSearcherCtrl', ['$scope', '$rootScope', '$http', func
     $scope.tableTitle = 'No search initiated';
     $scope.bookTable = [];
     $rootScope.selectedBooks = [];
-    $scope.count = 0;
 
-    $scope.checkBoxSelect = function(row, ind){
+    $scope.checkBoxSelect = function(row){
         if (row.check) {
-            if ($scope.count < $rootScope.limit) {
+            if ($scope.selectedBooks.length < $rootScope.limit) {
                 for (var i = 0; i < $rootScope.selectedBooks.length; i++) {
                     if ($rootScope.selectedBooks[i].isbn == row.isbn) {
                         return;
@@ -41,12 +40,10 @@ bookSearch.controller('BookSearcherCtrl', ['$scope', '$rootScope', '$http', func
 
                     else if ($rootScope.selectedBooks[i].isbn > row.isbn) {
                         $rootScope.selectedBooks.splice(i, 0, row);
-                        $scope.count += 1;
                         return;
                     }
                 }
                 $rootScope.selectedBooks.push(row);
-                $scope.count += 1;
             }
 
             else {
@@ -61,7 +58,6 @@ bookSearch.controller('BookSearcherCtrl', ['$scope', '$rootScope', '$http', func
                 mid = Math.floor((low + high) / 2);
                 if ($rootScope.selectedBooks[mid].isbn == row.isbn) {
                     $rootScope.selectedBooks.splice(mid, 1);
-                    $scope.count -= 1;
                     return;
                 }
                 else if ($rootScope.selectedBooks[mid].isbn < row.isbn) low = mid + 1;

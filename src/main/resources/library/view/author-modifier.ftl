@@ -1,4 +1,4 @@
-<#import "/library/view/scripts.ftl" as Scripts/>
+<#import "/library/view/template/scripts.ftl" as Scripts/>
 
 <html ng-app="authorModifyApp">
 <@Scripts.Scripts/>
@@ -91,7 +91,8 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-8 text-center">
-                                <button type="submit" class="btn btn-warning" ng-click="mod.$valid && modify(m)">Modify</button>
+                                <button type="button" class="btn btn-warning" ng-click="mod.$valid && modify(m)">Modify</button>
+                                <button type="button" class="btn btn-primary" ng-click="modifyImport()">Import</button>
                             </div>
                         </div>
                     </fieldset>
@@ -104,7 +105,7 @@
                         <div class="form-group">
                             <label for="author-id-delete" class="col-sm-3 control-label">ID</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="author-id-delete" placeholder="ID of author to be deleted" ng-model="dId" name="dId" required integers>
+                                <input type="number" class="form-control" id="author-id-delete" placeholder="ID of author to be deleted" ng-model="d.id" name="dId" required integers>
                                 <span ng-show="dele.dId.$error.required && dele.dId.$touched" style="color: #a94442">Can't be empty</span>
                                 <span ng-show="dele.dId.$error.integers && !dele.dId.$error.required" style="color: #a94442">Only positive numbers</span>
                             </div>
@@ -112,7 +113,8 @@
 
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-8 text-center">
-                                <button type="submit" class="btn btn-danger" ng-click="dele.$valid && deleter(dId)">Delete</button>
+                                <button type="button" class="btn btn-danger" ng-click="dele.$valid && deleter(dId)">Delete</button>
+                                <button type="button" class="btn btn-primary" ng-click="deleteImport()">Import</button>
                             </div>
                         </div>
                     </form>
@@ -141,7 +143,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-4 col-sm-8 text-center">
-                                <button type="submit" class="btn btn-primary" ng-click="search.$valid && validSearch(s.id, s.name) && search(s)">Search</button>
+                                <button type="submit" class="btn btn-primary" ng-click="search.$valid && validSearch(s.id, s.name) && searchAuthor(s)">Search</button>
                             </div>
                         </div>
                     </fieldset>
@@ -153,13 +155,15 @@
                     <table class="table table-hover table-bordered">
                         <tr>
                             <th class="col-sm-2">ID</th>
-                            <th class="col-sm-5">Name</th>
-                            <th class="col-sm-5">Email</th>
+                            <th class="col-sm-4">Name</th>
+                            <th class="col-sm-4">Email</th>
+                            <th class="col-sm-2">Choose</th>
                         </tr>
-                        <tr ng-repeat="a in authors track by a.id">
+                        <tr ng-repeat="a in authors track by $index">
                             <td>{{ a.id }}</td>
                             <td>{{ a.name }}</td>
                             <td>{{ a.email }}</td>
+                            <td><input type="checkbox" ng-model="a.check" ng-click="checkBoxSelect(a)"></td>
                         </tr>
                     </table>
                 </fieldset>

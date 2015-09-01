@@ -34,7 +34,7 @@ public class ViewResource {
     @GET
     @Path("modify/authors")
     @Timed
-    public PageView getAuthors() {return new PageView("author_modifier.ftl");}
+    public PageView getAuthors() {return new PageView("author-modifier.ftl");}
 
     @GET
     @Path("withdraw/books")
@@ -49,10 +49,5 @@ public class ViewResource {
     @GET
     @Path("create-user")
     public PageView createNewUser() {return new PageView("user_modifier.ftl");}
-
-
-    @GET
-    @Path("boot")
-    public PageView bootExample() {return new PageView("boot.ftl");}
 
 }

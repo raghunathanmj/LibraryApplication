@@ -1,5 +1,5 @@
-<#import '/library/view/scripts.ftl' as Scripts/>
-<#import '/library/view/book-searcher.ftl' as BookSearch/>
+<#import '/library/view/template/scripts.ftl' as Scripts/>
+<#import '/library/view/template/book-searcher.ftl' as BookSearch/>
 
 <html ng-app="bookModifierApp">
 <@Scripts.Scripts/>
@@ -68,7 +68,10 @@
                         <label for="book-insert-isbn" class="col-sm-3 control-label">Author {{$index+1}}</label>
                         <div class="col-sm-8">
                             <ng-form name="newAuthor">
-                                <input type="text" class="form-control" id="book-insert-isbn" ng-model="ite.name" name="name" placeholder="Autrhor Name" required alphabets>
+                                <div class="input-group">
+                                    <span class="input-group-addon" ng-click="insertRemove($index)" style="background-color: #d9534f; color: white">Delete</span>
+                                    <input type="text" class="form-control" id="book-insert-isbn" ng-model="ite.name" name="name" placeholder="Author Name" required alphabets>
+                                </div>
                                 <span ng-show="newAuthor.name.$error.required && newAuthor.name.$touched" style="color: #a94442">Can't be Empty</span>
                                 <span ng-show="newAuthor.name.$error.alphabets && !newAuthor.name.$error.required" style="color: #a94442">Only one alphabetical name</span>
                             </ng-form>
@@ -97,7 +100,7 @@
                     </div>
                     <div class="form-group">
                         <label for="book-modify-name" class="col-sm-3 control-label">Name</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-6">
                             <input type="text" class="form-control" id="book-modify-name" ng-model="m.name" name="mName" required alphabets placeholder="Book Name">
                             <span ng-show="modify.mName.$error.required && modify.mName.$touched" style="color: #a94442">Can't be empty</span>
                             <span ng-show="modify.mName.$error.alphabets && !modify.mName.$error.required" style="color: #a94442">Only one alphabetic name</span>
@@ -111,21 +114,26 @@
                             <span ng-show="modify.mQty.$error.integers && !modify.mQty.required" style="color: #a94442">Only positive integers</span>
                         </div>
                     </div>
-                    <div class="form-group" ng-repeat="ite in mAnames track by $index">
-                        <label for="book-modify-author" class="col-sm-3 control-label">Author {{$index+1}}</label>
-                        <div class="col-sm-8">
-                            <ng-form name="newAuthor">
-                                <input type="text" class="form-control" id="book-modify-author" name="name" ng-model="ite.name" placeholder="Author Name" required alphabets>
-                                <span ng-show="newAuthor.name.$error.required && newAuthor.name.$touched" style="color: #a94442">Can't be empty</span>
-                                <span ng-show="newAuthor.name.$error.alphabets && !newAuthor.name.required" style="color: #a94442">Only one alphabetic name</span>
-                            </ng-form>
+                    <div ng-repeat="ite in mAnames track by $index">
+                        <div class="form-group">
+                            <label for="book-modify-author" class="col-sm-3 control-label">Author {{$index+1}}</label>
+                            <div class="col-sm-8">
+                                <ng-form name="newAuthor">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" ng-click="modifyRemove($index)" style="background-color: #d9534f; color: white">Delete</span>
+                                        <input type="text" class=" form-control" id="book-modify-author" name="name" ng-model="ite.name" placeholder="Author Name" required alphabets>
+                                    </div>
+                                    <span ng-show="newAuthor.name.$error.required && newAuthor.name.$touched" style="color: #a94442">Can't be empty</span>
+                                    <span ng-show="newAuthor.name.$error.alphabets && !newAuthor.name.required" style="color: #a94442">Only one alphabetic name</span>
+                                </ng-form>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-8 text-center">
                             <button type="button" class="btn btn-primary" ng-click="modifyAddAuthor()">Add Author</button>
                             <button type="button" class="btn btn-warning" ng-click="modify.$valid && modifyBook(m)">Modify</button>
-                            <button type="button" class="btn btn-primary" ng-click="import()">Import</button>
+                            <button type="button" class="btn btn-primary" ng-click="modifyImport()">Import</button>
                         </div>
                     </div>
                 </fieldset>
@@ -135,7 +143,7 @@
         <div class="col-sm-4">
             <form name="dele" class="form-horizontal">
                 <fieldset>
-                    <legend>Book Deletion by ISBN</legend>
+                    <legend class="text-center">Book Deletion by ISBN</legend>
                     <div class="form-group">
                         <label for="book-delete-isbn" class="col-sm-3 control-label">ISBN</label>
                         <div class="col-sm-8">
@@ -147,6 +155,7 @@
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-8 text-center">
                             <button type="button" class="btn btn-danger" ng-click="dele.$valid">Delete</button>
+                            <button type="button" class="btn btn-primary" ng-click="deleteImport()">Import</button>
                         </div>
                     </div>
                 </fieldset>
