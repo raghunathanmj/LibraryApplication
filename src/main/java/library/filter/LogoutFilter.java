@@ -1,20 +1,14 @@
-package library.filter;
-import library.dao.CurrentUserDAO;
-import library.dao.UserDAO;
-import library.representation.User;
+/*package library.filter;
 import library.view.PageView;
 
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
-import java.util.Map;
 
 @Provider
 @PreMatching
@@ -50,4 +44,4 @@ public class LogoutFilter implements ContainerRequestFilter {
             requestContext.abortWith(Response.ok(new PageView("logout_done.ftl")).cookie(cookies).build());
         }
     }
-}
+}*/

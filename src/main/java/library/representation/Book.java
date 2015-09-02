@@ -1,24 +1,57 @@
 package library.representation;
 
+import lombok.Getter;
+
+import javax.persistence.*;
+import java.util.Objects;
+
 /**
  * Created by raghunathan.mj on 22/07/15.
  */
 
-
+@Entity
+@Table(name = "Book")
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "library.representation.Book.findAll",
+                query = "SELECT * from Book",
+                resultClass = Book.class
+        )
+})
+@Getter
 public class Book {
-    private final int isbn; //Unique
-    private final String title;
+    @Id
+    @Column(name = "isbn", nullable = false)
+    private final Integer isbn; //Unique
+
+    @Column(name = "name", nullable = false)
+    private final String name;
+
+    @Column(name = "quantity", nullable = false)
+    private final Integer quantity;
 
     public Book() {
-        isbn = -1;
-        title = null;
+        isbn = quantity = null;
+        name = null;
     }
 
-    public Book(int isbn, String title) {
+    public Book(int isbn, String name, int quantity) {
         this.isbn = isbn;
-        this.title = title;
+        this.name = name;
+        this.quantity = quantity;
     }
-    public int getIsbn() {return isbn;}
-    public String getTitle() {return title;}
+
+    @Override
+    public boolean equals(Object o) {
+        if(!(o instanceof Book)) return false;
+        else if (this == o) return true;
+
+        else {
+            Book that = (Book) o;
+            return Objects.equals(this.isbn, that.isbn) &&
+                    Objects.equals(this.name, that.name) &&
+                    Objects.equals(this.quantity, that.quantity);
+        }
+    }
 }
 

@@ -1,6 +1,6 @@
 var app = angular.module('bookModifierApp', ['ngResource', 'directives', 'bookSearch']);
 
-app.controller('BookModifierCtrl', ['$rootScope', '$scope', 'selectedBookService', function($rootScope, $scope, selectedBookService) {
+app.controller('BookModifierCtrl', ['$rootScope', '$scope' , 'selectedBookService', function($rootScope, $scope, selectedBookService) {
 
 
     $scope.mAnames = [{}];

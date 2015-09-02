@@ -1,11 +1,5 @@
-package library.filter;
+/*package library.filter;
 
-import io.dropwizard.auth.basic.BasicCredentials;
-import library.dao.CurrentUserDAO;
-import library.dao.UserDAO;
-import library.representation.User;
-
-import javax.jws.soap.SOAPBinding;
 import javax.ws.rs.container.DynamicFeature;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.FeatureContext;
@@ -29,4 +23,4 @@ public class LogoutFeature implements DynamicFeature {
             context.register(new LogoutFilter(this.currentUserDAO));
         }
     }
-}
+}*/

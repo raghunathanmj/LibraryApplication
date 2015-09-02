@@ -1,36 +1,19 @@
-package library.filter;
-import antlr.StringUtils;
-import com.google.api.client.http.HttpTransport;
+/*package library.filter;
 //import com.google.api.client.http.LowLevelHttpRequest;
 //import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.JsonGenerator;
-import com.google.api.client.json.JsonParser;
-import library.dao.CurrentUserDAO;
-import library.dao.UserDAO;
-import library.representation.User;
-import library.view.PageView;
 
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.Provider;
+        import javax.ws.rs.ext.Provider;
 import java.io.*;
-import java.nio.charset.Charset;
-import java.security.GeneralSecurityException;
+        import java.security.GeneralSecurityException;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+        import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.http.javanet.NetHttpTransport;
+        import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
 @Provider
@@ -78,4 +61,4 @@ public class LoginNotSpecifiedFilter implements ContainerRequestFilter {
         }
 
     }
-}
+}*/
