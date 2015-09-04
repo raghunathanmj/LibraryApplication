@@ -6,5 +6,6 @@
     <link rel="stylesheet" href="/Assets/bootstrap/css/bootstrap.css">
 
     <script src="/Assets/js/directives.js"></script>
-    <script src = "/Assets/js/book-search.js"></script>
+    <script src="/Assets/js/book-search.js"></script>
+    <script src="/Assets/js/http-service.js"></script>
 </#macro>

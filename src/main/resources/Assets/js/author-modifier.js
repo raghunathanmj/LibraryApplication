@@ -7,7 +7,7 @@ app.controller('AuthorModifierCtrl', ['$scope', '$http', function($scope, $http)
         $http({
             url: 'http://localhost:8080/author/create',
             method: 'POST',
-            data: {authorID:i.id, name:i.name},
+            data: {name:i.name, email: i.email},
             headers: {'Content-Type': 'application/json'}
         }).success(function(data, status, headers, config) {
             alert('done');

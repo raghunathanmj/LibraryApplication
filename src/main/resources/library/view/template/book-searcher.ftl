@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-4 text-center">
+                    <div class="col-sm-offset-3 col-sm-49 text-center">
                         <button type="submit" class="btn btn-primary" ng-click="author.$valid && validSearch('Book', b.isbn, b.name) && bookSearch(b)">Search</button>
                     </div>
                 </div>
@@ -43,11 +43,16 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-4 text-center">
+                    <div class="col-sm-offset-3 col-sm-9 text-center">
                         <button type="submit" class="btn btn-primary" ng-click="author.$valid && validSearch('author', a.id, a.name) && authorSearch(a)">Search</button>
                     </div>
                 </div>
             </fieldset>
+        </form>
+        <form class="form-horizontal">
+            <div class="col-sm-12 text-center">
+                <button type="button" class="btn btn-primary" ng-click="getAllBooks()">Show All Books</button>
+            </div>
         </form>
     </div>
     <div class="col-sm-9">
@@ -64,7 +69,7 @@
                 <tr ng-repeat="row in bookTable track by $index">
                     <td>{{row.isbn}}</td>
                     <td>{{row.name}}</td>
-                    <td><em ng-repeat="author in row.authors track by $index">{{author}}<em ng-show="!$last">,  </em></em></td>
+                    <td><em ng-repeat="author in row.authNames track by $index">{{author}}<em ng-show="!$last">,  </em></em></td>
                     <td>{{row.remaining}}</td>
                     <#--<td><input type="checkbox" ng-show="row.remaining > 0" ng-change="checkBoxSelect(row)" ng-bind-html="modelText(row.isbn)" ></td>-->
                     <td><input type="checkbox" ng-show="row.remaining > 0" ng-model="row.check" ng-change="checkBoxSelect(row)"></td>

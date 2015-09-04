@@ -39,13 +39,11 @@ public class AuthorResource {
     }
 
     @POST
-    @Path("create/{id}/{name}/{email}")
+    @Path("create/")
     @UnitOfWork
     @Produces(MediaType.APPLICATION_JSON)
-    public Author createAuthor(@PathParam("id") int id,
-                               @PathParam("name") String name,
-                               @PathParam("email") String email) {
-        Author newAuthor = new Author(id, name, email);
-        return authorDAO.create(newAuthor);
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Author createAuthor(Author author) {
+        return authorDAO.create(author);
     }
 }

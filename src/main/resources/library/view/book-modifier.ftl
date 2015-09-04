@@ -70,10 +70,10 @@
                             <ng-form name="newAuthor">
                                 <div class="input-group">
                                     <span class="input-group-addon" ng-click="insertRemove($index)" style="background-color: #d9534f; color: white">Delete</span>
-                                    <input type="text" class="form-control" id="book-insert-isbn" ng-model="ite.name" name="name" placeholder="Author Name" required alphabets>
+                                    <input type="number" class="form-control" id="author-id" ng-model="ite.id" name="id" placeholder="Author id" required integers>
                                 </div>
                                 <span ng-show="newAuthor.name.$error.required && newAuthor.name.$touched" style="color: #a94442">Can't be Empty</span>
-                                <span ng-show="newAuthor.name.$error.alphabets && !newAuthor.name.$error.required" style="color: #a94442">Only one alphabetical name</span>
+                                <span ng-show="newAuthor.name.$error.integers && !newAuthor.name.$error.required" style="color: #a94442">Only positive integers</span>
                             </ng-form>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                     </div>
                     <div class="form-group">
                         <label for="book-modify-name" class="col-sm-3 control-label">Name</label>
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <input type="text" class="form-control" id="book-modify-name" ng-model="m.name" name="mName" required alphabets placeholder="Book Name">
                             <span ng-show="modify.mName.$error.required && modify.mName.$touched" style="color: #a94442">Can't be empty</span>
                             <span ng-show="modify.mName.$error.alphabets && !modify.mName.$error.required" style="color: #a94442">Only one alphabetic name</span>
@@ -121,10 +121,10 @@
                                 <ng-form name="newAuthor">
                                     <div class="input-group">
                                         <span class="input-group-addon" ng-click="modifyRemove($index)" style="background-color: #d9534f; color: white">Delete</span>
-                                        <input type="text" class=" form-control" id="book-modify-author" name="name" ng-model="ite.name" placeholder="Author Name" required alphabets>
+                                        <input type="number" class=" form-control" id="book-modify-author" name="name" ng-model="ite.id" placeholder="Author ID" required integers>
                                     </div>
                                     <span ng-show="newAuthor.name.$error.required && newAuthor.name.$touched" style="color: #a94442">Can't be empty</span>
-                                    <span ng-show="newAuthor.name.$error.alphabets && !newAuthor.name.required" style="color: #a94442">Only one alphabetic name</span>
+                                    <span ng-show="newAuthor.name.$error.integers && !newAuthor.name.required" style="color: #a94442">Only positive integers</span>
                                 </ng-form>
                             </div>
                         </div>

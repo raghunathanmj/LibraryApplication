@@ -3,6 +3,8 @@ package library.representation;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by raghunathan.mj on 27/07/15.
@@ -21,13 +23,21 @@ import javax.persistence.*;
 public class Author {
     @Id
     @Column(name = "id", nullable = false)
-    private final Integer id;
+    private Integer id;
 
     @Column(name = "authorName", nullable = false)
-    private final String name;
+    private String name;
 
     @Column(name = "email", nullable = false)
-    private final String email;
+    private String email;
+
+    @ManyToMany(
+            mappedBy = "authors",
+            cascade = {CascadeType.REMOVE},
+            targetEntity = library.representation.Book.class,
+            fetch = FetchType.EAGER
+    )
+    private List<Book> books = new ArrayList<Book>();
 
     public Author() {
         id = null;

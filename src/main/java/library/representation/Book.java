@@ -1,10 +1,13 @@
 package library.representation;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-
 /**
  * Created by raghunathan.mj on 22/07/15.
  */
@@ -14,31 +17,60 @@ import java.util.Objects;
 @NamedNativeQueries({
         @NamedNativeQuery(
                 name = "library.representation.Book.findAll",
-                query = "SELECT * from Book",
+                query = "SELECT * FROM Book",
+                resultClass = Book.class
+        ),
+        @NamedNativeQuery(
+                name = "library.representation.Book.findByIsbn",
+                query = "SELECT * FROM Book WHERE isbn = :isbn",
+                resultClass = Book.class
+        ),
+        @NamedNativeQuery(
+                name = "library.representation.Book.matchByName",
+                query = "SELECT * FROM Book WHERE name LIKE CONCAT('%',:name,'%')",
                 resultClass = Book.class
         )
 })
 @Getter
-public class Book {
+@Setter
+@javax.persistence.SequenceGenerator(
+        name = "SEQ_STORE",
+        sequenceName = "my_sequence",
+        allocationSize = 20
+)
+public class Book implements Serializable{
     @Id
     @Column(name = "isbn", nullable = false)
-    private final Integer isbn; //Unique
+    private int isbn; //Unique
 
     @Column(name = "name", nullable = false)
-    private final String name;
+    private String name;
 
     @Column(name = "quantity", nullable = false)
-    private final Integer quantity;
+    private int quantity;
+
+    @ManyToMany(
+            targetEntity = library.representation.Author.class,
+            fetch = FetchType.EAGER
+    )
+    @JoinTable(
+            name = "book_author",
+            joinColumns = @JoinColumn(name = "isbn"),
+            inverseJoinColumns = @JoinColumn(name = "id")
+    )
+    private List<Author> authors = new ArrayList<Author>();
 
     public Book() {
-        isbn = quantity = null;
+        isbn = quantity = -1;
         name = null;
+        authors = null;
     }
 
-    public Book(int isbn, String name, int quantity) {
+    public Book(int isbn, String name, int quantity, List<Author> authors) {
         this.isbn = isbn;
         this.name = name;
         this.quantity = quantity;
+        this.authors = authors;
     }
 
     @Override
