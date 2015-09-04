@@ -36,16 +36,13 @@ app.controller('BookModifierCtrl', ['$rootScope', '$scope', 'selectedBookService
             return;
         };
 
-        $scope.insertBook = function(i) {//Currently unimplemented
-            //alert("Book Details: " + JSON.stringify(i) + "Authors: " + JSON.stringify($scope.iAnames));
-            //console.log(JSON.stringify({isbn: i.isbn, name: i.name, quantity: i.qty, authorId:[{id:1},{id:2}], authors:null}));
+        $scope.insertBook = function(i) {
             service('book/create', 'POST', {isbn: i.isbn, name: i.name, quantity: i.qty, authors:$scope.iAnames});
             return;
         };
 
-        $scope.modifyBook = function(updatedDetails) {//Currently unimplemented
-            alert("Book Details: " + JSON.stringify(updatedDetails) + "Authors: " + JSON.stringify($scope.mAnames));
-            service('book/modify', 'PUT', {isbn: i.isbn, name: i.name, quantity: i.qty, authors: $scope.mAnames});
+        $scope.modifyBook = function(m) {
+            service('book/modify', 'PUT', {isbn: m.isbn, name: m.name, quantity: m.qty, authors: $scope.mAnames});
             return;
         };
 
@@ -60,7 +57,7 @@ app.controller('BookModifierCtrl', ['$rootScope', '$scope', 'selectedBookService
             for (var  i = 0; i < localBooks[0].authors.length; i++) {
                 $scope.mAnames.push({id: localBooks[0].authors[i].id});
             }
-            $scope.m = {isbn:localBooks[0].isbn, name:localBooks[0].name,qty:localBooks[0].remaining};
+            $scope.m = {isbn:localBooks[0].isbn, name:localBooks[0].name,qty:localBooks[0].quantity};
             return;
         };
 

@@ -25,4 +25,12 @@ public class BookDAO extends AbstractDAO<Book> {
         q.setString("name", str);
         return q.list();
     }
+
+    public List<Book> findByAuthorId(int id) {
+        Query q = currentSession().getNamedQuery("library.representation.Book.findByAuthorId");
+        q.setInteger("id", id);
+        return q.list();
+    }
+
+
 }

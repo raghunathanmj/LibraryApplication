@@ -33,9 +33,9 @@ public class Author {
 
     @ManyToMany(
             mappedBy = "authors",
-            cascade = {CascadeType.REMOVE},
+            //cascade = {CascadeType.REMOVE},
             targetEntity = library.representation.Book.class,
-            fetch = FetchType.EAGER
+            fetch = FetchType.LAZY
     )
     private List<Book> books = new ArrayList<Book>();
 

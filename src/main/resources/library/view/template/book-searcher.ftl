@@ -19,8 +19,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-49 text-center">
-                        <button type="submit" class="btn btn-primary" ng-click="author.$valid && validSearch('Book', b.isbn, b.name) && bookSearch(b)">Search</button>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" ng-click="book.bIsbn.$valid && bookSearch('isbn', b.isbn)">ISBN Search</button>
+                        <button type="button" class="btn btn-primary" ng-click="book.bName.$valid && bookSearch('name', b.name)">NAME Search</button>
                     </div>
                 </div>
             </fieldset>
@@ -69,10 +70,9 @@
                 <tr ng-repeat="row in bookTable track by $index">
                     <td>{{row.isbn}}</td>
                     <td>{{row.name}}</td>
-                    <td><em ng-repeat="author in row.authNames track by $index">{{author}}<em ng-show="!$last">,  </em></em></td>
-                    <td>{{row.remaining}}</td>
-                    <#--<td><input type="checkbox" ng-show="row.remaining > 0" ng-change="checkBoxSelect(row)" ng-bind-html="modelText(row.isbn)" ></td>-->
-                    <td><input type="checkbox" ng-show="row.remaining > 0" ng-model="row.check" ng-change="checkBoxSelect(row)"></td>
+                    <td><em ng-repeat="author in row.authors track by $index">{{author.name}}<em ng-show="!$last">,  </em></em></td>
+                    <td>{{row.quantity}}</td>
+                    <td><input type="checkbox" ng-show="row.quantity > 0" ng-model="row.check" ng-change="checkBoxSelect(row)"></td>
                 </tr>
             </table>
         </fieldset>
@@ -87,10 +87,11 @@
                 <tr ng-repeat="book in selectedBooks track by $index">
                     <td>{{book.isbn}}</td>
                     <td>{{book.name}}</td>
-                    <td><em ng-repeat="author in book.authors track by $index">{{author}}<em ng-show="!$last">, </em></em></td>
+                    <td><em ng-repeat="author in book.authors track by $index">{{author.name}}<em ng-show="!$last">, </em></em></td>
                 </tr>
             </table>
         </fieldset>
+        <div class="text-center"><h4>{{bookResults}}</h4></div>
     </div>
 </div>
 </#macro>

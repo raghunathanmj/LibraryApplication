@@ -109,7 +109,7 @@
                     <div class="form-group">
                         <label for="book-modify-qty" class="col-sm-3 control-label">Quantity</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="book-modify-qty" ng-model="m.qty" name="mQty" required integers placeholder="New Quantity">
+                            <input type="number" class="form-control" id="book-modify-qty" ng-model="m.qty" name="mQty" required integers placeholder="Total new quantity in stock">
                             <span ng-show="modify.mQty.$error.required && modify.mQty.$touched" style="color: #a94442">Can't be empty</span>
                             <span ng-show="modify.mQty.$error.integers && !modify.mQty.required" style="color: #a94442">Only positive integers</span>
                         </div>
@@ -161,7 +161,6 @@
                 </fieldset>
             </form>
         </div>
-        {{chosenBook}}
     </div>
     <@BookSearch.BookSearch/>
 </div>

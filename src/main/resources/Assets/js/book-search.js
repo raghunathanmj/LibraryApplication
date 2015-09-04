@@ -2,48 +2,51 @@ var bookSearch = angular.module('bookSearch', ['ngResource', 'httpService']);
 bookSearch.controller('BookSearcherCtrl', ['$scope', '$rootScope', 'service', function($scope, $rootScope, service) {
     $scope.validSearch = function(name, a, b) {
         if ((typeof a === 'undefined') && (typeof b === 'undefined')) {
-            alert("Search by " + name + " failed: Both entries of search cant be left empty");
+            alert("Search by " + name + "Search Entry can");
             return false;
         }
         return true;
     };
 
-    $scope.bookSearch = function(book) {//currently unimplemented
-        $scope.tableTitle = 'Table results for search by book';
-        var isbn = book.isbn, name = book.name;
-        if (typeof book.isbn === 'undefined') {
-            isbn = -1;
+    $scope.bookSearch = function(criteria, value) {//currently unimplemented
+        $scope.tableTitle = 'Table results for search by book ';
+        if (typeof value === 'undefined') {
+            alert('ERROR:\n Please enter ' + criteria);
+            return;
         }
-        if (typeof book.name === 'undefined') {
-            name = '';
-        }
-        alert(name);
-        var books = service('book/search/' + isbn + '/' + name, 'GET', {});
-        $scope.bookTable = [];
-        for (var i = 0; i < books.size(); i++) {
-            var authIds = [];
-            for (var j = 0; i < books[i].authors.length; j++)
-                authIds.push(books[i].authors[j].id);
-            var authNames = [];
-            for (var j = 0; j < books[i].authors.length; j++)
-                authNames.push(books[i].authors[j].name);
-            $scope.bookTable.push({isbn:books[i].isbn, name:books[i].name, authNames:authNames, authIds:authIds, remaining:books[i].isbn});
-        }
+        service('book/search/' + criteria + '/' + value, 'GET', {}).then(function(response) {
+            $scope.collectResponseData(response);
+        });
+
     };
 
     $scope.authorSearch = function(author) {//currently unimplemented
         $scope.tableTitle = 'Table results for search by author';
-        //$scope.bookTable = [{isbn: 1, name: 'physics', authors:['iro', 'pop'], remaining:1}, {isbn: 2, name: 'chemistry', authors:['jd', 'lee'], remaining:0}];
+
         alert('searching for author\n' + JSON.stringify(author));
     };
 
     $scope.getAllBooks = function() {
         $scope.tableTitle = 'All Books in the Library';
+        service('book/get-all/', 'GET', {}).then(function(response) {
+            $scope.collectResponseData(response);
+        });
+    };
+
+    $scope.collectResponseData = function(response) {
+        if (typeof response.data === 'undefined' || response.data.length == 0 || response.data[0] == null) {
+            $scope.bookResults = 'No results found';
+            $scope.bookTable = [];
+            return;
+        }
+        $scope.bookResults = '';
+        $scope.bookTable = response.data;
     };
 
     $scope.tableTitle = 'No search initiated';
     $scope.bookTable = [];
     $rootScope.selectedBooks = [];
+    $scope.bookResults = '';
 
     $scope.checkBoxSelect = function(row){
         if (row.check) {

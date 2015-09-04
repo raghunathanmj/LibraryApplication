@@ -1,20 +1,23 @@
 var httpService = angular.module('httpService', []);
 
-httpService.factory('service', ['$http', function($http) {
+httpService.factory('service', ['$http', '$rootScope', function($http, $rootScope) {
     return function(relativeUrl, method, obj) {
-        $http({
+        var req = {
             url: 'http://localhost:8080/' + relativeUrl,
             method: method,
             data: obj,
             headers: {'Content-Type': 'application/json'}
-        }).success(function(data, status, headers, config) {
-            alert('done');
+        };
+
+        var retVal = $http(req).then(function(data, status, headers, config) {
             console.log('Object sent to server: ' + JSON.stringify(obj));
             console.log('Server response: ' + JSON.stringify(data));
-            return data;
-        }).error(function(data, status, headers, config) {
-            alert('fail');
-            alert(JSON.stringify(obj));
+            $rootScope.retVal = data;
+            return $rootScope.retVal;
+        }, function(data, status, headers, config) {
+            console.log('fail');
         });
+
+        return retVal;
     }
 }]);

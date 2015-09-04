@@ -29,6 +29,11 @@ import java.util.Objects;
                 name = "library.representation.Book.matchByName",
                 query = "SELECT * FROM Book WHERE name LIKE CONCAT('%',:name,'%')",
                 resultClass = Book.class
+        ),
+        @NamedNativeQuery(
+                name = "library.representation.Book.findByAuthorId",
+                query = "SELECT * FROM Book WHERE isbn in (SELECT isbn FROM book_author where id = :id)",
+                resultClass = Book.class
         )
 })
 @Getter

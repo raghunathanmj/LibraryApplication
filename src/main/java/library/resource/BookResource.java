@@ -59,11 +59,13 @@ public class BookResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Book> search(@PathParam("name") String name, @PathParam("isbn") int isbn) {
         List<Book> books = new ArrayList<Book>();
-        if (name != "undefined")
+        if (!name.equals("undefined"))
             books = bookDAO.matchByName(name);
 
-        if (isbn < 0)
+        if (isbn < 0) {
+            System.out.println("here");
             return books;
+        }
 
         Book book = bookDAO.findById(isbn);
         if (books.size() > 0) {
@@ -82,6 +84,35 @@ public class BookResource {
             retBook.add(book);
             return retBook;
         }
+    }
+
+    @GET
+    @Path("search/isbn/{isbn}")
+    @UnitOfWork
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Book> searchByIsbn(@PathParam("isbn") int isbn) {
+        Book book = bookDAO.findById(isbn);
+        List<Book> retBook = new ArrayList<Book>();
+        retBook.add(book);
+        return retBook;
+    }
+
+    @GET
+    @Path("author/{id}/{name}")
+    @UnitOfWork
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Book> searchByAuthor(@PathParam("id") int id, @PathParam("name") String name) {
+        List<Book> books = new ArrayList<Book>();
+        List<Book> idBooks = new ArrayList<Book>();
+        List<Book> nameBooks = new ArrayList<Book>();
+
+        if (id > 0)
+            idBooks = bookDAO.findByAuthorId(id);
+
+       // if (!name.equals("undefined"))
+         //   nameBooks = bookDAO.matchAuthorName(name);
+        return null;
+
 
     }
 }
