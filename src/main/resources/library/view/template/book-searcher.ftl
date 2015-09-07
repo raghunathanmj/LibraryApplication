@@ -1,4 +1,5 @@
 <#macro BookSearch>
+
 <div class="row" ng-controller="BookSearcherCtrl">
     <div class="col-sm-3">
         <form class="form-horizontal" name="book">
@@ -20,8 +21,8 @@
                 </div>
                 <div class="form-group">
                     <div class="text-center">
-                        <button type="button" class="btn btn-primary" ng-click="book.bIsbn.$valid && bookSearch('isbn', b.isbn)">ISBN Search</button>
-                        <button type="button" class="btn btn-primary" ng-click="book.bName.$valid && bookSearch('name', b.name)">NAME Search</button>
+                        <button type="button" class="btn btn-primary" ng-click="book.bIsbn.$valid && search('search', 'isbn', b.isbn)">ISBN Search</button>
+                        <button type="button" class="btn btn-primary" ng-click="book.bName.$valid && search('search', 'name', b.name)">NAME Search</button>
                     </div>
                 </div>
             </fieldset>
@@ -44,8 +45,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-9 text-center">
-                        <button type="submit" class="btn btn-primary" ng-click="author.$valid && validSearch('author', a.id, a.name) && authorSearch(a)">Search</button>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" ng-click="author.aId.$valid && search('author', 'id', a.id)">ID Search</button>
+                        <button type="button" class="btn btn-primary" ng-click="author.aName.$valid && search('author', 'name', a.name)">NAME Search</button>
                     </div>
                 </div>
             </fieldset>

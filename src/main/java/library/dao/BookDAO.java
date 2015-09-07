@@ -3,6 +3,7 @@ package library.dao;
 import io.dropwizard.hibernate.AbstractDAO;
 import library.representation.Book;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
@@ -12,7 +13,12 @@ import java.util.List;
  */
 public class BookDAO extends AbstractDAO<Book> {
 
-    public BookDAO(SessionFactory factory) {super(factory);}
+    private final SessionFactory factory;
+
+    public BookDAO(SessionFactory factory) {
+        super(factory);
+        this.factory = factory;
+    }
 
     public Book findById(int isbn) {return get(isbn);}
 
@@ -32,5 +38,30 @@ public class BookDAO extends AbstractDAO<Book> {
         return q.list();
     }
 
+    public List<Book> findByAuthorName(String name) {
+        Query q = currentSession().getNamedQuery("library.representation.Book.findByAuthorName");
+        q.setString("name", name);
+        return q.list();
+    }
 
+    public void deleteBook(Integer isbn) {
+        Query children = currentSession().createSQLQuery("DELETE FROM book_author WHERE isbn = " + isbn);
+        children.executeUpdate();
+        Query q = currentSession().getNamedQuery("library.representation.Book.deleteByIsbn");
+        q.setInteger("isbn", isbn);
+        q.executeUpdate();
+        return;
+    }
+
+    public Book exists(Integer isbn) {
+        Session session = factory.openSession();
+        Query q = session.getNamedQuery("library.representation.Book.getIsbnIfExists");
+        q.setInteger("isbn", isbn);
+        List<Book> books = q.list();
+        session.close();
+        if (books.size() > 0)
+            return books.get(0);
+        else
+            return null;
+    }
 }

@@ -7,7 +7,6 @@ import library.representation.Book;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -50,40 +49,44 @@ public class BookResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Book createBook(Book book) {
+        Book existingBook = bookDAO.findById(book.getIsbn());
+        if (existingBook != null) {
+            return new Book(null, null, null, null);
+        }
+
+        try  {
+            return bookDAO.create(book);
+        }
+        catch (Exception e) {
+            System.err.format("Hibernate Exception: %s%n", e);
+        }
+        return new Book(-1, null, null, null);
+    }
+
+    @PUT
+    @Path("modify")
+    @UnitOfWork
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Book modifyBook(Book book) {
+        Book existingBook = bookDAO.exists(book.getIsbn());
+        if (existingBook == null) {
+            return new Book(null, null, null, null);
+        }
         return bookDAO.create(book);
     }
 
-    @GET
-    @Path("search/{isbn}/{name}")
+    @DELETE
+    @Path("delete/{isbn}")
     @UnitOfWork
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Book> search(@PathParam("name") String name, @PathParam("isbn") int isbn) {
-        List<Book> books = new ArrayList<Book>();
-        if (!name.equals("undefined"))
-            books = bookDAO.matchByName(name);
-
-        if (isbn < 0) {
-            System.out.println("here");
-            return books;
+    public Book deleteBook(@PathParam("isbn") int isbn) {
+        Book existingBook = bookDAO.exists(isbn);
+        if (existingBook == null) {
+            return new Book(null, null, null, null);
         }
-
-        Book book = bookDAO.findById(isbn);
-        if (books.size() > 0) {
-            for (Iterator<Book> ite = books.listIterator(); ite.hasNext();) {
-                if (ite.next().getIsbn() == book.getIsbn()) {
-                    List<Book> retBook = new ArrayList<Book>();
-                    retBook.add(book);
-                    return retBook;
-                }
-            }
-            return null;
-        }
-
-        else {
-            List<Book> retBook = new ArrayList<Book>();
-            retBook.add(book);
-            return retBook;
-        }
+        bookDAO.deleteBook(isbn);
+        return existingBook;
     }
 
     @GET
@@ -98,21 +101,31 @@ public class BookResource {
     }
 
     @GET
-    @Path("author/{id}/{name}")
+    @Path("search/name/{name}")
     @UnitOfWork
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Book> searchByAuthor(@PathParam("id") int id, @PathParam("name") String name) {
-        List<Book> books = new ArrayList<Book>();
-        List<Book> idBooks = new ArrayList<Book>();
-        List<Book> nameBooks = new ArrayList<Book>();
-
-        if (id > 0)
-            idBooks = bookDAO.findByAuthorId(id);
-
-       // if (!name.equals("undefined"))
-         //   nameBooks = bookDAO.matchAuthorName(name);
-        return null;
-
-
+    public List<Book> searchByName(@PathParam("name") String name) {
+        List<Book> retBooks = new ArrayList<Book>();
+        retBooks = bookDAO.matchByName(name);
+        return retBooks;
     }
+
+    @GET
+    @Path("author/id/{id}")
+    @UnitOfWork
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Book> searchByAuthorId(@PathParam("id") int id) {
+        List<Book> retBooks = bookDAO.findByAuthorId(id);
+        return retBooks;
+    }
+
+    @GET
+    @Path("author/name/{name}")
+    @UnitOfWork
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Book> searchByAuthorName(@PathParam("name") String name) {
+        List<Book> retBooks = bookDAO.findByAuthorName(name);
+        return retBooks;
+    }
+
 }

@@ -1,46 +1,55 @@
-var app = angular.module('authorModifyApp', ['ngResource', 'directives']);
+var app = angular.module('authorModifyApp', ['ngResource', 'directives', 'httpService']);
 
-app.controller('AuthorModifierCtrl', ['$scope', '$http', function($scope, $http) {
+app.controller('AuthorModifierCtrl', ['$scope', 'service', function($scope, service) {
 
     $scope.insert = function(i){
         alert(JSON.stringify(i));
-        $http({
-            url: 'http://localhost:8080/author/create',
-            method: 'POST',
-            data: {name:i.name, email: i.email},
-            headers: {'Content-Type': 'application/json'}
-        }).success(function(data, status, headers, config) {
-            alert('done');
-        }).error(function(data, status, headers, config) {
-            alert('fail');
+        service('author/insert', 'POST', {id: i.id, name: i.name, email: i.email}).then(function(response) {
+            if (response.data.id == null) {
+                alert('ERROR:\nAuthor with given id already exists or cannot be created');
+                return;
+            }
         });
-        alert('http complete');
     };
 
     $scope.modify = function(m) {
-      alert(JSON.stringify(m));
+        alert(JSON.stringify(m));
+        service('author/modify', 'PUT', {id: m.id, name: m.name, email: m.email}).then(function(response) {
+            if (response.data.id == null) {
+                alert('ERROR:\nAuthor with given id does not exist to be modified');
+                return;
+            }
+        });
     };
 
     $scope.deleter = function(d) {
         alert(JSON.stringify(d));
+        service('author/delete/' + d.id, 'DELETE', {}).then(function(response) {
+            if (response.data.id == null) {
+                alert('ERROR:\nAuthor does not exist or cannot be deleted');
+                return;
+            }
+        });
     };
 
-    $scope.validSearch = function(a, b){
-        if ((typeof a === 'undefined') && (typeof b === 'undefined')) {
-            alert('Enter valid input for one or more search criteria');
-            return false;
-        }
-        return true;
-    };
-    $scope.searchAuthor = function(s) {
-        alert(JSON.stringify(s));
-        $scope.authors=[{id:1, name:"alice", email:"alice@flipkart.com"}, {id:2, name:"bob", email:"bob@flipkart.com"}];
+
+    $scope.searchAuthor = function(criteria, value) {
+        service('author/search/' + criteria + '/' + value, 'GET', {}).then(function(response) {
+            if (response.data == null || response.data.length == 0) {
+                $scope.authorResults = "No results found";
+                return;
+            }
+            $scope.authorResults = "";
+            $scope.selectedAuthor = [];
+            $scope.authors = response.data;
+        });
     };
 
     $scope.authors=[];
 
     $scope.selectedAuthor = [];
     $scope.limit = 1;
+    $scope.authorResults = "";
     $scope.checkBoxSelect = function(a) {
         if (a.check) {
             if ($scope.selectedAuthor.length >= $scope.limit) {

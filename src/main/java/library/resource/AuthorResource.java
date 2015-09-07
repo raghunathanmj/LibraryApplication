@@ -6,6 +6,7 @@ import library.representation.Author;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("author")
@@ -45,5 +46,54 @@ public class AuthorResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Author createAuthor(Author author) {
         return authorDAO.create(author);
+    }
+
+    @GET
+    @Path("search/id/{id}")
+    @UnitOfWork
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Author> searchById(@PathParam("id") Integer id) {
+        Author author = authorDAO.findById(id);
+        List<Author> retVal = new ArrayList<Author>();
+        retVal.add(author);
+        return retVal;
+    }
+
+    @GET
+    @Path("search/name/{name}")
+    @UnitOfWork
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Author> searchByName(@PathParam("name") String name) {
+        List<Author> retVal = authorDAO.findByName(name);
+        return retVal;
+    }
+
+    @DELETE
+    @Path("delete/{id}")
+    @UnitOfWork
+    @Produces(MediaType.APPLICATION_JSON)
+    public Author deleteAuthor(@PathParam("id") Integer id) {
+        Author existingAuthor = authorDAO.findById(id);
+        if (existingAuthor == null) {
+            Author error = new Author(null, null, null);
+            return error;
+        }
+        authorDAO.deleteAuthor(id);
+        return existingAuthor;
+    }
+
+    @PUT
+    @Path("modify")
+    @UnitOfWork
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Author modifyAuthor(Author author) {
+        Author existingAuthor = authorDAO.findById(author.getId());
+        if (existingAuthor == null) {
+            Author error = new Author(null, null, null);
+            return error;
+        }
+        authorDAO.modifyAuthor(author);
+        return author;
     }
 }

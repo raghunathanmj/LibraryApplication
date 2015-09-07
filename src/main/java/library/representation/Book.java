@@ -1,13 +1,13 @@
 package library.representation;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 /**
  * Created by raghunathan.mj on 22/07/15.
  */
@@ -34,25 +34,34 @@ import java.util.Objects;
                 name = "library.representation.Book.findByAuthorId",
                 query = "SELECT * FROM Book WHERE isbn in (SELECT isbn FROM book_author where id = :id)",
                 resultClass = Book.class
+        ),
+        @NamedNativeQuery(
+                name = "library.representation.Book.findByAuthorName",
+                query = "SELECT * FROM Book WHERE isbn in (SELECT isbn FROM book_author where id in (SELECT id from Author WHERE authorName LIKE CONCAT('%',:name, '%')))",
+                resultClass = Book.class
+        ),
+        @NamedNativeQuery(
+                name = "library.representation.Book.deleteByIsbn",
+                query = "DELETE FROM Book where isbn = :isbn",
+                resultClass = Book.class
+        ),
+        @NamedNativeQuery(
+                name = "library.representation.Book.getIsbnIfExists",
+                query = "SELECT * FROM Book WHERE isbn = :isbn",
+                resultClass = Book.class
         )
 })
 @Getter
-@Setter
-@javax.persistence.SequenceGenerator(
-        name = "SEQ_STORE",
-        sequenceName = "my_sequence",
-        allocationSize = 20
-)
 public class Book implements Serializable{
     @Id
     @Column(name = "isbn", nullable = false)
-    private int isbn; //Unique
+    private Integer isbn; //Unique
 
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "quantity", nullable = false)
-    private int quantity;
+    private Integer quantity;
 
     @ManyToMany(
             targetEntity = library.representation.Author.class,
@@ -66,12 +75,12 @@ public class Book implements Serializable{
     private List<Author> authors = new ArrayList<Author>();
 
     public Book() {
-        isbn = quantity = -1;
+        isbn = quantity = null;
         name = null;
         authors = null;
     }
 
-    public Book(int isbn, String name, int quantity, List<Author> authors) {
+    public Book(Integer isbn, String name, Integer quantity, List<Author> authors) {
         this.isbn = isbn;
         this.name = name;
         this.quantity = quantity;

@@ -8,13 +8,16 @@ bookSearch.controller('BookSearcherCtrl', ['$scope', '$rootScope', 'service', fu
         return true;
     };
 
-    $scope.bookSearch = function(criteria, value) {//currently unimplemented
-        $scope.tableTitle = 'Table results for search by book ';
+    $scope.search = function(type, criteria, value) {//currently unimplemented
+
         if (typeof value === 'undefined') {
             alert('ERROR:\n Please enter ' + criteria);
+            //$scope.tableTitle = 'Table results for search by book ';
             return;
         }
-        service('book/search/' + criteria + '/' + value, 'GET', {}).then(function(response) {
+        $rootScope.selectedBooks = [];
+        $scope.tableTitle = 'Table results for search by ' + type + ' ' + criteria;
+        service('book/' + type + '/' + criteria + '/' + value, 'GET', {}).then(function(response) {
             $scope.collectResponseData(response);
         });
 

@@ -37,12 +37,26 @@ app.controller('BookModifierCtrl', ['$rootScope', '$scope', 'selectedBookService
         };
 
         $scope.insertBook = function(i) {
-            service('book/create', 'POST', {isbn: i.isbn, name: i.name, quantity: i.qty, authors:$scope.iAnames});
+            service('book/create', 'POST', {isbn: i.isbn, name: i.name, quantity: i.qty, authors:$scope.iAnames}).then(function(response){
+                if (typeof response === 'undefined') {
+                    alert('ERROR:\nError creating book. Author entries my be invalid.');
+                    return;
+                }
+                else if (response.data.isbn == null) {
+                    alert('ERROR:\nBook with given isbn already exists');
+                    return;
+                }
+            });
             return;
         };
 
         $scope.modifyBook = function(m) {
-            service('book/modify', 'PUT', {isbn: m.isbn, name: m.name, quantity: m.qty, authors: $scope.mAnames});
+            service('book/modify', 'PUT', {isbn: m.isbn, name: m.name, quantity: m.qty, authors: $scope.mAnames}).then(function(response) {
+                if (response.data.isbn == null) {
+                    alert('ERROR:\nBook with existing ISBN can only be modified');
+                    return;
+                }
+            });
             return;
         };
 
@@ -77,7 +91,7 @@ app.controller('BookModifierCtrl', ['$rootScope', '$scope', 'selectedBookService
                 return;
             }
             $scope.mAnames.splice(ind, 1);
-        }
+        };
 
         $scope.insertRemove = function(ind) {
             if ($scope.iAnames.length == 1) {
@@ -85,6 +99,16 @@ app.controller('BookModifierCtrl', ['$rootScope', '$scope', 'selectedBookService
                 return;
             }
             $scope.iAnames.splice(ind, 1);
+        };
+
+        $scope.deleteBook = function(isbn) {
+            service('book/delete/' + isbn, 'DELETE', {}).then(function(response) {
+                if (response.data.isbn == null) {
+                    alert('ERROR:\nBook cannot be deleted. DNE');
+                }
+                console.log(response);
+            });
+            return;
         }
     }
 ]);

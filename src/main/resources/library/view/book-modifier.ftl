@@ -67,13 +67,13 @@
                     <div class="form-group" ng-repeat="ite in iAnames track by $index">
                         <label for="book-insert-isbn" class="col-sm-3 control-label">Author {{$index+1}}</label>
                         <div class="col-sm-8">
-                            <ng-form name="newAuthor">
+                            <ng-form name="newAuthorIns">
                                 <div class="input-group">
                                     <span class="input-group-addon" ng-click="insertRemove($index)" style="background-color: #d9534f; color: white">Delete</span>
-                                    <input type="number" class="form-control" id="author-id" ng-model="ite.id" name="id" placeholder="Author id" required integers>
+                                    <input type="number" class="form-control" id="author-id" ng-model="ite.id" name="id" placeholder="Author ID" required integers>
                                 </div>
-                                <span ng-show="newAuthor.name.$error.required && newAuthor.name.$touched" style="color: #a94442">Can't be Empty</span>
-                                <span ng-show="newAuthor.name.$error.integers && !newAuthor.name.$error.required" style="color: #a94442">Only positive integers</span>
+                                <span ng-show="newAuthorIns.id.$error.required && newAuthorIns.id.$touched" style="color: #a94442">Can't be Empty</span>
+                                <span ng-show="newAuthorIns.id.$error.integers && !newAuthorIns.id.$error.required" style="color: #a94442">Only positive integers</span>
                             </ng-form>
                         </div>
                     </div>
@@ -118,13 +118,13 @@
                         <div class="form-group">
                             <label for="book-modify-author" class="col-sm-3 control-label">Author {{$index+1}}</label>
                             <div class="col-sm-8">
-                                <ng-form name="newAuthor">
+                                <ng-form name="newAuthorMod">
                                     <div class="input-group">
                                         <span class="input-group-addon" ng-click="modifyRemove($index)" style="background-color: #d9534f; color: white">Delete</span>
-                                        <input type="number" class=" form-control" id="book-modify-author" name="name" ng-model="ite.id" placeholder="Author ID" required integers>
+                                        <input type="number" class=" form-control" id="book-modify-author" name="id" ng-model="ite.id" placeholder="Author ID" required integers>
                                     </div>
-                                    <span ng-show="newAuthor.name.$error.required && newAuthor.name.$touched" style="color: #a94442">Can't be empty</span>
-                                    <span ng-show="newAuthor.name.$error.integers && !newAuthor.name.required" style="color: #a94442">Only positive integers</span>
+                                    <span ng-show="newAuthorMod.id.$error.required && newAuthorMod.id.$touched" style="color: #a94442">Can't be empty</span>
+                                    <span ng-show="newAuthorMod.id.$error.integers && !(newAuthorMod.id.required && newAuthorMod.id.$touched)" style="color: #a94442">Only positive integers</span>
                                 </ng-form>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-8 text-center">
-                            <button type="button" class="btn btn-danger" ng-click="dele.$valid">Delete</button>
+                            <button type="button" class="btn btn-danger" ng-click="dele.$valid && deleteBook(d.isbn)">Delete</button>
                             <button type="button" class="btn btn-primary" ng-click="deleteImport()">Import</button>
                         </div>
                     </div>

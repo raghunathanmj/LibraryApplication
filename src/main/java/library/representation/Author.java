@@ -17,6 +17,21 @@ import java.util.List;
                 name = "library.representation.Author.findAll",
                 query = "SELECT * from Author",
                 resultClass = Author.class
+        ),
+        @NamedNativeQuery(
+                name = "library.representation.Author.deleteById",
+                query = "DELETE FROM Author WHERE id = :id",
+                resultClass = Author.class
+        ),
+        @NamedNativeQuery(
+                name = "library.representation.Author.findByName",
+                query = "SELECT * FROM Author WHERE authorName LIKE CONCAT('%', :name, '%')",
+                resultClass = Author.class
+        ),
+        @NamedNativeQuery(
+                name = "library.representation.Author.modify",
+                query = "UPDATE Author SET authorName = :name, email = :email WHERE id = :id",
+                resultClass = Author.class
         )
 })
 @Getter
@@ -33,9 +48,7 @@ public class Author {
 
     @ManyToMany(
             mappedBy = "authors",
-            //cascade = {CascadeType.REMOVE},
-            targetEntity = library.representation.Book.class,
-            fetch = FetchType.LAZY
+            targetEntity = library.representation.Book.class
     )
     private List<Book> books = new ArrayList<Book>();
 
@@ -44,7 +57,7 @@ public class Author {
         name = email = null;
     }
 
-    public Author(int id, String name, String email) {
+    public Author(Integer id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;

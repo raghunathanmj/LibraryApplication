@@ -113,7 +113,7 @@
 
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-8 text-center">
-                                <button type="button" class="btn btn-danger" ng-click="dele.$valid && deleter(dId)">Delete</button>
+                                <button type="button" class="btn btn-danger" ng-click="dele.$valid && deleter(d)">Delete</button>
                                 <button type="button" class="btn btn-primary" ng-click="deleteImport()">Import</button>
                             </div>
                         </div>
@@ -130,20 +130,21 @@
                         <div class="form-group">
                             <label for="search-id" class="col-sm-4 control-label">ID</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="search-id" placeholder="Search ID" ng-model="s.id" name="sId" integerSearch>
+                                <input type="number" class="form-control" id="search-id" placeholder="ID" ng-model="s.id" name="sId" integers>
                                 <span ng-show="search.sId.$error.integers && search.sId.$touched" style="color: #a94442">Only positive numbers</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="search-name" class="col-sm-4 control-label">Name</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="search-name" placeholder="name" ng-model="s.name" name="sName" alphabets>
+                                <input type="text" class="form-control" id="search-name" placeholder="Whole or part of name" ng-model="s.name" name="sName" alphabets>
                                 <span ng-show="search.sName.$error.alphabets && search.sId.$touched" style="color: #a94442">Only one alphabetic name</span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-offset-4 col-sm-8 text-center">
-                                <button type="submit" class="btn btn-primary" ng-click="search.$valid && validSearch(s.id, s.name) && searchAuthor(s)">Search</button>
+                            <div class="col-sm-12 text-center">
+                                <button type="submit" class="btn btn-primary" ng-click="search.sId.$valid && searchAuthor('id', s.id)">ID Search</button>
+                                <button type="submit" class="btn btn-primary" ng-click="search.sName.$valid && searchAuthor('name', s.name)">NAME Search</button>
                             </div>
                         </div>
                     </fieldset>
@@ -167,6 +168,7 @@
                         </tr>
                     </table>
                 </fieldset>
+                <p><h4>{{authorResults}}</h4></p>
             </div>
         </div>
     </div>
