@@ -73,7 +73,7 @@ public class AuthorResource {
     @UnitOfWork
     @Produces(MediaType.APPLICATION_JSON)
     public Author deleteAuthor(@PathParam("id") Integer id) {
-        Author existingAuthor = authorDAO.findById(id);
+        Author existingAuthor = authorDAO.exists(id);
         if (existingAuthor == null) {
             Author error = new Author(null, null, null);
             return error;
@@ -88,7 +88,7 @@ public class AuthorResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Author modifyAuthor(Author author) {
-        Author existingAuthor = authorDAO.findById(author.getId());
+        Author existingAuthor = authorDAO.exists(author.getId());
         if (existingAuthor == null) {
             Author error = new Author(null, null, null);
             return error;

@@ -4,7 +4,7 @@ app.controller('AuthorModifierCtrl', ['$scope', 'service', function($scope, serv
 
     $scope.insert = function(i){
         alert(JSON.stringify(i));
-        service('author/insert', 'POST', {id: i.id, name: i.name, email: i.email}).then(function(response) {
+        service('author/create', 'POST', {id: i.id, name: i.name, email: i.email}).then(function(response) {
             if (response.data.id == null) {
                 alert('ERROR:\nAuthor with given id already exists or cannot be created');
                 return;
@@ -19,6 +19,8 @@ app.controller('AuthorModifierCtrl', ['$scope', 'service', function($scope, serv
                 alert('ERROR:\nAuthor with given id does not exist to be modified');
                 return;
             }
+            $scope.selectedAuthor = [];
+            $scope.authors[$scope.index] = {id: response.data.id, name: response.data.name, email:response.data.email};
         });
     };
 
@@ -29,6 +31,8 @@ app.controller('AuthorModifierCtrl', ['$scope', 'service', function($scope, serv
                 alert('ERROR:\nAuthor does not exist or cannot be deleted');
                 return;
             }
+            $scope.selectedAuthor = [];
+            $scope.authors.splice($scope.index, 1);
         });
     };
 
@@ -50,8 +54,9 @@ app.controller('AuthorModifierCtrl', ['$scope', 'service', function($scope, serv
     $scope.selectedAuthor = [];
     $scope.limit = 1;
     $scope.authorResults = "";
-    $scope.checkBoxSelect = function(a) {
+    $scope.checkBoxSelect = function(a, ind) {
         if (a.check) {
+            $scope.index = ind;
             if ($scope.selectedAuthor.length >= $scope.limit) {
                 alert('ERROR: Only one author can be selected');
                 a.check = false;

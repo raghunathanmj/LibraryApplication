@@ -3,6 +3,7 @@ package library.dao;
 import io.dropwizard.hibernate.AbstractDAO;
 import library.representation.Author;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
@@ -49,10 +50,23 @@ public class AuthorDAO extends AbstractDAO<Author> {
     }
 
     public void modifyAuthor(Author author) {
-        Query updateQuery = currentSession().getNamedQuery("library.representation.Auhotr.modify");
+        Query updateQuery = currentSession().getNamedQuery("library.representation.Author.modify");
         updateQuery.setInteger("id", author.getId());
+        updateQuery.setString("email", author.getEmail());
         updateQuery.setString("name", author.getName());
         updateQuery.executeUpdate();
         return;
+    }
+
+    public Author exists(Integer id) {
+        Session session = factory.openSession();
+        Query exists = session.getNamedQuery("library.representation.Author.exists");
+        exists.setInteger("id", id);
+        List<Author> authors = exists.list();
+        session.close();
+        if (authors.size() > 0)
+            return authors.get(0);
+        else
+            return null;
     }
 }

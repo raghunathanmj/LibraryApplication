@@ -164,7 +164,7 @@
                             <td>{{ a.id }}</td>
                             <td>{{ a.name }}</td>
                             <td>{{ a.email }}</td>
-                            <td><input type="checkbox" ng-model="a.check" ng-click="checkBoxSelect(a)"></td>
+                            <td><input type="checkbox" ng-model="a.check" ng-click="checkBoxSelect(a, $index)"></td>
                         </tr>
                     </table>
                 </fieldset>

@@ -32,6 +32,11 @@ import java.util.List;
                 name = "library.representation.Author.modify",
                 query = "UPDATE Author SET authorName = :name, email = :email WHERE id = :id",
                 resultClass = Author.class
+        ),
+        @NamedNativeQuery(
+                name = "library.representation.Author.exists",
+                query = "SELECT * FROM Author WHERE id = :id",
+                resultClass = Author.class
         )
 })
 @Getter
